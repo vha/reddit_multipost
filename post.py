@@ -1,4 +1,3 @@
-# Import the argparse module and the reddit_multi library
 import argparse
 import json
 import praw
@@ -7,7 +6,6 @@ from PIL import Image
 
 
 def post(title: str, subreddits: list, image_path: str = None, text: str = None):
-    # Read and parse the client_secrets.json file
     with open('client_secrets.json') as f:
         secrets = json.load(f)
 
@@ -25,7 +23,7 @@ def post(title: str, subreddits: list, image_path: str = None, text: str = None)
             subreddit.submit(title=title, selftext=text)
             continue
 
-        post = subreddit.submit_image(
+        post: Submission = subreddit.submit_image(
             title=title, image_path=str(image_path))
 
         if text:
@@ -48,13 +46,8 @@ parser.add_argument('--text', type=str,
 # Parse the arguments
 args = parser.parse_args()
 
-# if args.image_path and args.text:
-#     raise argparse.ArgumentError(
-#         'You can only use either --image_path or --text, not both')
-
-
 if args.image_path:
-    # Ensure the path is a valid image, or it will raise an exception
+    # Ensure the path is a valid image, or raise an exception
     with open(args.image_path) as f:
         img = Image.open(args.image_path)
         img.format
