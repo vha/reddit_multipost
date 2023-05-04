@@ -1,0 +1,3 @@
+SubredditNameExample,flair_for_your_post
+AnotherSubreddit
+ThirdSubreddit,brand_new_flair

@@ -17,14 +17,21 @@ def post(title: str, subreddits: list, image_path: str = None, text: str = None)
         timeout=60
     )
 
-    for subreddit_name in subreddits:
-        subreddit: Subreddit = reddit.subreddit(subreddit_name)
+    for subreddit_line in subreddits:
+        name, *params = subreddit_line.split(',')
+        subreddit: Subreddit = reddit.subreddit(name)
+
+        if params:
+            flair_templates = subreddit.flair.link_templates
+            flair_id = next(
+                (template["id"] for template in flair_templates if template["text"] == params[0].strip()), None)
+
         if not image_path:
-            subreddit.submit(title=title, selftext=text)
+            subreddit.submit(title=title, selftext=text, flair_id=flair_id)
             continue
 
         post: Submission = subreddit.submit_image(
-            title=title, image_path=str(image_path))
+            title=title, image_path=str(image_path), flair_id=flair_id)
 
         if text:
             post.reply(text)
