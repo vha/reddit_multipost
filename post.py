@@ -36,7 +36,7 @@ parser = argparse.ArgumentParser(
 
 # Add an argument for the path to the file
 parser.add_argument('title', type=str, help='The title of the post')
-parser.add_argument('subreddits', type=argparse.FileType('r'),
+parser.add_argument('subreddits_path', type=argparse.FileType('r'),
                     help='Path to a text file with the list of subreddits, separated by line breaks')
 parser.add_argument('--image_path', type=str,
                     help='The path to the image to post')
@@ -52,6 +52,6 @@ if args.image_path:
         img = Image.open(args.image_path)
         img.format
 
-subreddits = ''.join(args.subreddits).splitlines()
+subreddits = ''.join(args.subreddits_path).splitlines()
 
 post(args.title, subreddits, args.image_path, args.text)
