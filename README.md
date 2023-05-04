@@ -1,6 +1,6 @@
 # Reddit multipost
 
-Tool to post to multiple subreddits at the same time that works with both text and image posts. Can also automatically post a comment on image posts after creation.
+Command line tool to post to multiple subreddits at the same time that works with both text and image posts. Can also automatically post a comment on image posts after creation.
 
 ### Setup
 - Rename `clients_secrets_template.json` to `clients_secrets.json`.
