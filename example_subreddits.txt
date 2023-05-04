@@ -1,3 +1,4 @@
-SubredditNameExample;flair_for_your_post
-AnotherSubreddit
-ThirdSubreddit;this is another flair
+SubredditNameExample;New title;flair_for_your_post;What a great comment
+AnotherSubreddit;;flair;False
+ThirdSubreddit;;;
+HelloSubreddit;My Title And Me;;
