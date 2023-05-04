@@ -32,7 +32,7 @@ python post.py title subreddits_path [--image_path IMAGE_PATH] [--text TEXT]
 python post.py "Test post title" "/path/to/subreddits.txt" --image_path "/path/to/image.png" --text "This will be a comment in the image post"
 ```
 
-It will create either a post or an image post depending on the arguments. 
+It will create either a post or an image post depending on the arguments.
 
 If image_path is not set, it will create a text post, and viceversa.
 

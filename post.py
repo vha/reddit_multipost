@@ -23,20 +23,23 @@ def post(title: str, subreddits: list, image_path: str = None, text: str = None)
         timeout=60
     )
 
-    print(f'Posting to {len(subreddits)} subreddits...')
+    print(
+        f'---------------------------\nPosting "{title}" to {len(subreddits)} subreddits\n---------------------------')
 
     for subreddit_line in subreddits:
         name, *params = subreddit_line.split(';')
         subreddit: Subreddit = reddit.subreddit(name)
+        msg_post = f'Posting to {name}'
 
         if params:
+            flair_name = params[0].strip()
             flair_templates = subreddit.flair.link_templates
             flair_id = next(
-                (template["id"] for template in flair_templates if template["text"] == params[0].strip()), None)
+                (template["id"] for template in flair_templates if template["text"] == flair_name), None)
+            if flair_id:
+                msg_post += f' with flair "{flair_name}"...'
 
-        flair = '' if not flair_id else ' with flair "' + \
-            params[0].strip() + '"'
-        print(f'Posting to {name}{flair}...')
+        print(msg_post)
 
         if not image_path:
             subreddit.submit(title=title, selftext=text, flair_id=flair_id)
