@@ -16,7 +16,6 @@ application OAuth2 credentials.
 import random
 import socket
 import sys
-
 import praw
 
 
@@ -56,7 +55,8 @@ def main():
     client_id = input(
         "Enter the client ID, it's the line just under Personal use script at the top: "
     )
-    client_secret = input("Enter the client secret, it's the line next to secret: ")
+    client_secret = input(
+        "Enter the client secret, it's the line next to secret: ")
     commaScopes = input(
         "Now enter a comma separated list of scopes, or all for all tokens: "
     )
