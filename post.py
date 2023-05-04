@@ -12,7 +12,7 @@ def post(title: str, subreddits: list, image_path: str = None, text: str = None)
         print(f'{secrets_file} not found. Did you rename the template?')
         exit(0)
 
-    with open('client_secrets.json') as f:
+    with open(secrets_file) as f:
         secrets = json.load(f)
 
     reddit = praw.Reddit(
