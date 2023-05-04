@@ -30,11 +30,9 @@ def post(title: str, subreddits: list, image_path: str = None, text: str = None)
             post.reply(text)
 
 
-# Create a parser object
 parser = argparse.ArgumentParser(
     description='Post on reddit using reddit_multi')
 
-# Add an argument for the path to the file
 parser.add_argument('title', type=str, help='The title of the post')
 parser.add_argument('subreddits_path', type=argparse.FileType('r'),
                     help='Path to a text file with the list of subreddits, separated by line breaks')
@@ -43,7 +41,6 @@ parser.add_argument('--image_path', type=str,
 parser.add_argument('--text', type=str,
                     help='The text to post. If used with image_path, it will post a comment in the image post')
 
-# Parse the arguments
 args = parser.parse_args()
 
 if args.image_path:
