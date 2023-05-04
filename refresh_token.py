@@ -1,6 +1,8 @@
-# Taken from https://www.jcchouinard.com/get-reddit-api-credentials-with-praw/
-
 #!/usr/bin/env python
+
+####
+# Taken from https://www.jcchouinard.com/get-reddit-api-credentials-with-praw/
+####
 
 """This example demonstrates the flow for retrieving a refresh token.
 
