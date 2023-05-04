@@ -26,7 +26,7 @@ def post(title: str, subreddits: list, image_path: str = None, text: str = None)
     print(f'Posting to {len(subreddits)} subreddits...')
 
     for subreddit_line in subreddits:
-        name, *params = subreddit_line.split(',')
+        name, *params = subreddit_line.split(';')
         subreddit: Subreddit = reddit.subreddit(name)
 
         if params:

@@ -12,7 +12,13 @@ pip install -r requirements.txt
 
 - Rename `clients_secrets_template.json` to `clients_secrets.json`.
 - Create a reddit app to generate your secrets and update your `clients_secrets.json` with them - [guide](https://www.jcchouinard.com/get-reddit-api-credentials-with-praw/).
-- Create a text file with the subreddits you want to post to, separated by line breaks. You can select a flair for your post using a comma after the subreddit's name. See `example_subreddits.txt` for an example.
+- Create a text file with the subreddits you want to post to, separated by line breaks. You can select a flair for your post using a `;` after the subreddit's name like this:
+
+```txt
+SubredditName;flair
+```
+
+See `example_subreddits.txt` for a more complete example.
 
 ## Usage
 
