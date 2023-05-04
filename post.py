@@ -1,11 +1,17 @@
 import argparse
 import json
+import os
 import praw
 from praw.models import Subreddit, Submission
 from PIL import Image
 
 
 def post(title: str, subreddits: list, image_path: str = None, text: str = None):
+    secrets_file = 'client_secrets.json'
+    if not os.path.isfile(secrets_file):
+        print(f'{secrets_file} not found. Did you rename the template?')
+        exit(0)
+
     with open('client_secrets.json') as f:
         secrets = json.load(f)
 
@@ -17,6 +23,8 @@ def post(title: str, subreddits: list, image_path: str = None, text: str = None)
         timeout=60
     )
 
+    print(f'Posting to {len(subreddits)} subreddits...')
+
     for subreddit_line in subreddits:
         name, *params = subreddit_line.split(',')
         subreddit: Subreddit = reddit.subreddit(name)
@@ -25,6 +33,10 @@ def post(title: str, subreddits: list, image_path: str = None, text: str = None)
             flair_templates = subreddit.flair.link_templates
             flair_id = next(
                 (template["id"] for template in flair_templates if template["text"] == params[0].strip()), None)
+
+        flair = '' if not flair_id else ' with flair "' + \
+            params[0].strip() + '"'
+        print(f'Posting to {name}{flair}...')
 
         if not image_path:
             subreddit.submit(title=title, selftext=text, flair_id=flair_id)
@@ -35,6 +47,8 @@ def post(title: str, subreddits: list, image_path: str = None, text: str = None)
 
         if text:
             post.reply(text)
+
+    print('Done!')
 
 
 parser = argparse.ArgumentParser(
