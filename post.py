@@ -31,7 +31,7 @@ def post(title: str, subreddits: list, image_path: str = None, text: str = None)
 
 
 parser = argparse.ArgumentParser(
-    description='Post on reddit using reddit_multi')
+    description='Post text or images on multiple subreddits')
 
 parser.add_argument('title', type=str, help='The title of the post')
 parser.add_argument('subreddits_path', type=argparse.FileType('r'),
