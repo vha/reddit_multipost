@@ -9,7 +9,7 @@ from PIL import Image
 from enum import Enum
 
 
-def post(title: str, subreddits: list, image_path: str = None, link: str = None, text: str = None, nsfw=False):
+def post(title: str, subreddit_lines: list, image_path: str = None, link: str = None, text: str = None, nsfw=False):
     secrets_file = 'client_secrets.json'
     if not os.path.isfile(secrets_file):
         print(f'{secrets_file} not found. Did you rename the template?')
@@ -26,22 +26,22 @@ def post(title: str, subreddits: list, image_path: str = None, link: str = None,
     )
 
     print(
-        f'---------------------------\nPosting "{title}" to {len(subreddits)} subreddits\n---------------------------')
+        f'---------------------------\nPosting "{title}" to {len(subreddit_lines)} subreddits\n---------------------------')
 
-    for subreddit_line in subreddits:
+    for subreddit_line in subreddit_lines:
         name, specific_title, flair_name, specific_text = subreddit_line.split(';')
         subreddit: Subreddit = reddit.subreddit(name)
 
-        post_title = specific_title.strip() or title
-        post_text = specific_text.strip() or text
-        flair_name = flair_name.strip()
+        post_title = specific_title.strip() or title.strip()
+        post_text = specific_text.strip() or text.strip() if text else ''
+        flair_name = flair_name.strip() if flair_name else ''
         flair_id = ''
 
-        msg_post = f'Posting on > {name} < with title "{post_title}"'
+        msg_post = f'Posting on  >> {name} <<  with title "{post_title}"'
 
         if flair_name and subreddit.link_flair_enabled:
-            flair_templates = subreddit.flair.link_templates
-            flair_id = next((template["id"] for template in flair_templates if template["text"] == flair_name), None)
+            flair_templates = subreddit.flair.link_templates.user_selectable()
+            flair_id = next((template["flair_template_id"] for template in flair_templates if template["flair_text"] == flair_name), None)
             if flair_id:
                 msg_post += f' and flair "{flair_name}"'
 
@@ -88,12 +88,16 @@ group.add_argument('--image_path', type=str, help='The path to the image to post
 group.add_argument('--link', type=str, help='The URL to post')
 args = parser.parse_args()
 
+if not args.text and not args.link and not args.image_path:
+    print('You have to choose the type of post to make - select at least one between --post, --link and --image_path')
+    exit(0)
+
 if args.image_path:
     # Ensure the path is a valid image, or raise an exception
     with open(args.image_path) as f:
         img = Image.open(args.image_path)
         img.format
 
-subreddits = ''.join(args.subreddits_path).splitlines()
+subreddit_lines = ''.join(args.subreddits_path).splitlines()
 
-post(args.title.strip(), subreddits, args.image_path, args.link.strip(), args.text.strip(), args.nsfw)
+post(args.title, subreddit_lines, args.image_path, args.link, args.text, args.nsfw)
